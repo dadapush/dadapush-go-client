@@ -1,4 +1,4 @@
-# Go API client for dadapush-go-client
+# Go API client for dadapush-client
 
 DaDaPush: Real-time Notifications App Send real-time notifications through our API without coding and maintaining your own app for iOS or Android devices.
 
@@ -24,7 +24,7 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./dadapush-go-client"
+import "./dadapush-client"
 ```
 
 ## Documentation for API Endpoints
