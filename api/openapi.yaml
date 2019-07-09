@@ -1,0 +1,469 @@
+openapi: 3.0.1
+info:
+  contact:
+    email: contacts@dadapush.com
+    name: DaDaPush
+    url: http://127.0.0.1:8080
+  description: |-
+    DaDaPush: Real-time Notifications App
+    Send real-time notifications through our API without coding and maintaining your own app for iOS or Android devices.
+  title: DaDaPush Public API
+  version: v1
+servers:
+- url: https://www.dadapush.com/
+tags:
+- description: v1
+  name: DaDaPush Message
+paths:
+  /api/v1/message:
+    post:
+      deprecated: false
+      description: '<h2>Rate Limit:</h2><ul><li>1 request per 1s</li><li>30 request
+        per 1m</li><li>500 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0:
+        ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel
+        is not exists</li><li>103: channel token error</li><li>104: channel is not
+        exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205:
+        permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301:
+        duplicate username/email</li><li>302: user is not exists</li><li>303: user
+        password is error</li><li>304: client push token is error</li><li>305: user
+        is disabled</li><li>306: your subscription is expired</li><li>307: user not
+        subscribe channel</li></ul>'
+      operationId: createMessage
+      parameters:
+      - description: 'see: https://www.dadapush.com/channel/list'
+        in: header
+        name: x-channel-token
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessagePushRequest'
+        description: body
+        required: true
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultOfMessagePushResponse'
+          description: OK
+      summary: push Message to a Channel
+      tags:
+      - DaDaPush Message
+      x-codegen-request-body-name: body
+  /api/v1/message/{messageId}:
+    delete:
+      deprecated: false
+      description: '<h2>Rate Limit:</h2><ul><li>10 request per 1s</li><li>100 request
+        per 1m</li><li>1000 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0:
+        ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel
+        is not exists</li><li>103: channel token error</li><li>104: channel is not
+        exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205:
+        permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301:
+        duplicate username/email</li><li>302: user is not exists</li><li>303: user
+        password is error</li><li>304: client push token is error</li><li>305: user
+        is disabled</li><li>306: your subscription is expired</li><li>307: user not
+        subscribe channel</li></ul>'
+      operationId: deleteMessage
+      parameters:
+      - description: messageId
+        in: path
+        name: messageId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: 'see: https://www.dadapush.com/channel/list'
+        in: header
+        name: x-channel-token
+        schema:
+          type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/result'
+          description: OK
+      summary: delete a Channel Message
+      tags:
+      - DaDaPush Message
+    get:
+      deprecated: false
+      description: '<h2>Rate Limit:</h2><ul><li>10 request per 1s</li><li>100 request
+        per 1m</li><li>1000 request per 1h</li></ul><h2>Result code/errmsg List:</h2><ul><li>0:
+        ok</li><li>1: server error</li><li>101: channel is exists</li><li>102: channel
+        is not exists</li><li>103: channel token error</li><li>104: channel is not
+        exists</li><li>105: message is not exists</li><li>204: bad request</li><li>205:
+        permission deny</li><li>206: too many request, please after 5 minutes to try!</li><li>301:
+        duplicate username/email</li><li>302: user is not exists</li><li>303: user
+        password is error</li><li>304: client push token is error</li><li>305: user
+        is disabled</li><li>306: your subscription is expired</li><li>307: user not
+        subscribe channel</li></ul>'
+      operationId: getMessage
+      parameters:
+      - description: messageId
+        in: path
+        name: messageId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: 'see: https://www.dadapush.com/channel/list'
+        in: header
+        name: x-channel-token
+        schema:
+          type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultOfMessageObject'
+          description: OK
+      summary: get a Channel Message
+      tags:
+      - DaDaPush Message
+  /api/v1/messages:
+    get:
+      deprecated: false
+      description: '<h2>Rate Limit:</h2><ul><li>1 request per 1s</li><li>45 request
+        per 1m</li></ul><h2>Result code/errmsg List:</h2><ul><li>0: ok</li><li>1:
+        server error</li><li>101: channel is exists</li><li>102: channel is not exists</li><li>103:
+        channel token error</li><li>104: channel is not exists</li><li>105: message
+        is not exists</li><li>204: bad request</li><li>205: permission deny</li><li>206:
+        too many request, please after 5 minutes to try!</li><li>301: duplicate username/email</li><li>302:
+        user is not exists</li><li>303: user password is error</li><li>304: client
+        push token is error</li><li>305: user is disabled</li><li>306: your subscription
+        is expired</li><li>307: user not subscribe channel</li></ul>'
+      operationId: getMessages
+      parameters:
+      - allowEmptyValue: false
+        description: greater than 1
+        example: 1
+        in: query
+        name: page
+        required: true
+        schema:
+          default: 1
+          format: int32
+          type: integer
+      - allowEmptyValue: false
+        description: range is 1,50
+        example: 10
+        in: query
+        name: pageSize
+        required: true
+        schema:
+          default: 10
+          format: int32
+          type: integer
+      - description: 'see: https://www.dadapush.com/channel/list'
+        in: header
+        name: x-channel-token
+        schema:
+          type: string
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/resultOfPageResponseOfMessageObject'
+          description: OK
+      summary: get Message List
+      tags:
+      - DaDaPush Message
+components:
+  schemas:
+    Action:
+      example:
+        name: VIEW
+        type: link
+        url: https://www.dadapush.com/
+      properties:
+        name:
+          description: action button name
+          example: VIEW
+          maxLength: 20
+          minLength: 1
+          type: string
+        type:
+          description: 'fix value: link'
+          enum:
+          - link
+          example: link
+          pattern: link
+          type: string
+        url:
+          description: action url
+          example: https://www.dadapush.com/
+          maxLength: 500
+          minLength: 1
+          type: string
+      required:
+      - name
+      - type
+      - url
+      title: Action
+      type: object
+    MessageObject:
+      example:
+        createdAt: 2019-07-01 12:45:30
+        channelName: channelName
+        id: 123
+        title: Good News!
+        actions:
+        - name: VIEW
+          type: link
+          url: https://www.dadapush.com/
+        - name: VIEW
+          type: link
+          url: https://www.dadapush.com/
+        content: DaDaPush v1.0.0 releasing
+      properties:
+        actions:
+          description: action size range is 0,3
+          items:
+            $ref: '#/components/schemas/Action'
+          type: array
+        channelName:
+          example: channelName
+          type: string
+        content:
+          example: DaDaPush v1.0.0 releasing
+          type: string
+        createdAt:
+          example: 2019-07-01 12:45:30
+          type: string
+        id:
+          example: 123
+          format: int64
+          type: integer
+        title:
+          example: Good News!
+          type: string
+      required:
+      - channelName
+      - content
+      - createdAt
+      - id
+      - title
+      title: MessageObject
+      type: object
+    MessagePushRequest:
+      example:
+        needPush: true
+        title: Good News!
+        actions:
+        - name: VIEW
+          type: link
+          url: https://www.dadapush.com/
+        - name: VIEW
+          type: link
+          url: https://www.dadapush.com/
+        content: Good News! DaDaPush releasing new version
+      properties:
+        actions:
+          description: action size range is 0,3
+          items:
+            $ref: '#/components/schemas/Action'
+          type: array
+        content:
+          description: message content
+          example: Good News! DaDaPush releasing new version
+          maxLength: 500
+          minLength: 1
+          type: string
+        needPush:
+          description: when value is false, will not send client push
+          example: true
+          type: boolean
+        title:
+          description: message title
+          example: Good News!
+          maxLength: 50
+          minLength: 1
+          type: string
+      required:
+      - content
+      - needPush
+      - title
+      title: MessagePushRequest
+      type: object
+    MessagePushResponse:
+      example:
+        messageId: 12345
+      properties:
+        messageId:
+          example: 12345
+          format: int64
+          type: integer
+      required:
+      - messageId
+      title: MessagePushResponse
+      type: object
+    PageResponseOfMessageObject:
+      example:
+        totalPages: 6
+        content:
+        - createdAt: 2019-07-01 12:45:30
+          channelName: channelName
+          id: 123
+          title: Good News!
+          actions:
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          content: DaDaPush v1.0.0 releasing
+        - createdAt: 2019-07-01 12:45:30
+          channelName: channelName
+          id: 123
+          title: Good News!
+          actions:
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          content: DaDaPush v1.0.0 releasing
+        totalElements: 0
+      properties:
+        content:
+          items:
+            $ref: '#/components/schemas/MessageObject'
+          type: array
+        totalElements:
+          format: int64
+          type: integer
+        totalPages:
+          format: int64
+          type: integer
+      title: PageResponseOfMessageObject
+      type: object
+    result:
+      example:
+        code: 0
+        data: '{}'
+        errmsg: ok
+      properties:
+        code:
+          example: 0
+          format: int32
+          type: integer
+        data:
+          properties: {}
+          type: object
+        errmsg:
+          example: ok
+          type: string
+      required:
+      - code
+      - errmsg
+      title: result
+      type: object
+    resultOfMessageObject:
+      example:
+        code: 0
+        data:
+          createdAt: 2019-07-01 12:45:30
+          channelName: channelName
+          id: 123
+          title: Good News!
+          actions:
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          - name: VIEW
+            type: link
+            url: https://www.dadapush.com/
+          content: DaDaPush v1.0.0 releasing
+        errmsg: ok
+      properties:
+        code:
+          example: 0
+          format: int32
+          type: integer
+        data:
+          $ref: '#/components/schemas/MessageObject'
+        errmsg:
+          example: ok
+          type: string
+      required:
+      - code
+      - errmsg
+      title: resultOfMessageObject
+      type: object
+    resultOfMessagePushResponse:
+      example:
+        code: 0
+        data:
+          messageId: 12345
+        errmsg: ok
+      properties:
+        code:
+          example: 0
+          format: int32
+          type: integer
+        data:
+          $ref: '#/components/schemas/MessagePushResponse'
+        errmsg:
+          example: ok
+          type: string
+      required:
+      - code
+      - errmsg
+      title: resultOfMessagePushResponse
+      type: object
+    resultOfPageResponseOfMessageObject:
+      example:
+        code: 0
+        data:
+          totalPages: 6
+          content:
+          - createdAt: 2019-07-01 12:45:30
+            channelName: channelName
+            id: 123
+            title: Good News!
+            actions:
+            - name: VIEW
+              type: link
+              url: https://www.dadapush.com/
+            - name: VIEW
+              type: link
+              url: https://www.dadapush.com/
+            content: DaDaPush v1.0.0 releasing
+          - createdAt: 2019-07-01 12:45:30
+            channelName: channelName
+            id: 123
+            title: Good News!
+            actions:
+            - name: VIEW
+              type: link
+              url: https://www.dadapush.com/
+            - name: VIEW
+              type: link
+              url: https://www.dadapush.com/
+            content: DaDaPush v1.0.0 releasing
+          totalElements: 0
+        errmsg: ok
+      properties:
+        code:
+          example: 0
+          format: int32
+          type: integer
+        data:
+          $ref: '#/components/schemas/PageResponseOfMessageObject'
+        errmsg:
+          example: ok
+          type: string
+      required:
+      - code
+      - errmsg
+      title: resultOfPageResponseOfMessageObject
+      type: object
