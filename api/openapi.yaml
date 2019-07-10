@@ -210,7 +210,7 @@ components:
       type: object
     MessageObject:
       example:
-        createdAt: 2019-07-01 12:45:30
+        createdAt: 2015-07-25T23:09:01.795+0700
         channelName: channelName
         id: 123
         title: Good News!
@@ -235,7 +235,7 @@ components:
           example: DaDaPush v1.0.0 releasing
           type: string
         createdAt:
-          example: 2019-07-01 12:45:30
+          example: 2015-07-25T23:09:01.795+0700
           type: string
         id:
           example: 123
@@ -308,7 +308,7 @@ components:
       example:
         totalPages: 6
         content:
-        - createdAt: 2019-07-01 12:45:30
+        - createdAt: 2015-07-25T23:09:01.795+0700
           channelName: channelName
           id: 123
           title: Good News!
@@ -320,7 +320,7 @@ components:
             type: link
             url: https://www.dadapush.com/
           content: DaDaPush v1.0.0 releasing
-        - createdAt: 2019-07-01 12:45:30
+        - createdAt: 2015-07-25T23:09:01.795+0700
           channelName: channelName
           id: 123
           title: Good News!
@@ -371,7 +371,7 @@ components:
       example:
         code: 0
         data:
-          createdAt: 2019-07-01 12:45:30
+          createdAt: 2015-07-25T23:09:01.795+0700
           channelName: channelName
           id: 123
           title: Good News!
@@ -426,7 +426,7 @@ components:
         data:
           totalPages: 6
           content:
-          - createdAt: 2019-07-01 12:45:30
+          - createdAt: 2015-07-25T23:09:01.795+0700
             channelName: channelName
             id: 123
             title: Good News!
@@ -438,7 +438,7 @@ components:
               type: link
               url: https://www.dadapush.com/
             content: DaDaPush v1.0.0 releasing
-          - createdAt: 2019-07-01 12:45:30
+          - createdAt: 2015-07-25T23:09:01.795+0700
             channelName: channelName
             id: 123
             title: Good News!
