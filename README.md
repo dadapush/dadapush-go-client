@@ -54,10 +54,6 @@ Class | Method | HTTP request | Description
  - [ResultOfPageResponseOfMessageObject](docs/ResultOfPageResponseOfMessageObject.md)
 
 
-## Documentation For Authorization
-
- Endpoints do not require authorization.
-
 
 ## Author
 
