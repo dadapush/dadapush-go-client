@@ -26,7 +26,7 @@ go get github.com/antihax/optional
 Put the package under your project folder and add the following in import:
 
 ```golang
-import "./dadapush-client"
+import "./dadapushclient"
 ```
 
 ## Documentation for API Endpoints
