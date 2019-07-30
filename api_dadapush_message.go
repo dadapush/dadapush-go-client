@@ -13,7 +13,6 @@ package dadapushclient
 import (
 	"context"
 	"fmt"
-	"github.com/antihax/optional"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -33,15 +32,11 @@ DaDaPushMessageApiService push Message to a Channel
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param body body
  * @param optional nil or *CreateMessageOpts - Optional Parameters:
- * @param "XChannelToken" (optional.String) -  see: https://www.dadapush.com/channel/list
+ * @param "ChannelToken" -  see: https://www.dadapush.com/channel/list
 @return ResultOfMessagePushResponse
 */
 
-type CreateMessageOpts struct {
-	XChannelToken optional.String
-}
-
-func (a *DaDaPushMessageApiService) CreateMessage(ctx context.Context, body MessagePushRequest, localVarOptionals *CreateMessageOpts) (ResultOfMessagePushResponse, *http.Response, error) {
+func (a *DaDaPushMessageApiService) CreateMessage(ctx context.Context, body MessagePushRequest, channelToken string) (ResultOfMessagePushResponse, *http.Response, error) {
 	var (
 		localVarHttpMethod   = http.MethodPost
 		localVarPostBody     interface{}
@@ -75,9 +70,7 @@ func (a *DaDaPushMessageApiService) CreateMessage(ctx context.Context, body Mess
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.XChannelToken.IsSet() {
-		localVarHeaderParams["x-channel-token"] = parameterToString(localVarOptionals.XChannelToken.Value(), "")
-	}
+	localVarHeaderParams["x-channel-token"] = parameterToString(channelToken, "")
 	// body params
 	localVarPostBody = &body
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
@@ -91,7 +84,7 @@ func (a *DaDaPushMessageApiService) CreateMessage(ctx context.Context, body Mess
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
+	_ = localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
 	}
@@ -132,15 +125,11 @@ DaDaPushMessageApiService delete a Channel Message
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param messageId messageId
  * @param optional nil or *DeleteMessageOpts - Optional Parameters:
- * @param "XChannelToken" (optional.String) -  see: https://www.dadapush.com/channel/list
+ * @param "ChannelToken"  -  see: https://www.dadapush.com/channel/list
 @return Result
 */
 
-type DeleteMessageOpts struct {
-	XChannelToken optional.String
-}
-
-func (a *DaDaPushMessageApiService) DeleteMessage(ctx context.Context, messageId int64, localVarOptionals *DeleteMessageOpts) (Result, *http.Response, error) {
+func (a *DaDaPushMessageApiService) DeleteMessage(ctx context.Context, messageId int64, channelToken string) (Result, *http.Response, error) {
 	var (
 		localVarHttpMethod   = http.MethodDelete
 		localVarPostBody     interface{}
@@ -159,7 +148,7 @@ func (a *DaDaPushMessageApiService) DeleteMessage(ctx context.Context, messageId
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	var localVarHttpContentTypes []string
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -175,9 +164,7 @@ func (a *DaDaPushMessageApiService) DeleteMessage(ctx context.Context, messageId
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.XChannelToken.IsSet() {
-		localVarHeaderParams["x-channel-token"] = parameterToString(localVarOptionals.XChannelToken.Value(), "")
-	}
+	localVarHeaderParams["x-channel-token"] = parameterToString(channelToken, "")
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -189,7 +176,7 @@ func (a *DaDaPushMessageApiService) DeleteMessage(ctx context.Context, messageId
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
+	_ = localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
 	}
@@ -230,15 +217,11 @@ DaDaPushMessageApiService get a Channel Message
  * @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  * @param messageId messageId
  * @param optional nil or *GetMessageOpts - Optional Parameters:
- * @param "XChannelToken" (optional.String) -  see: https://www.dadapush.com/channel/list
+ * @param "ChannelToken" -  see: https://www.dadapush.com/channel/list
 @return ResultOfMessageObject
 */
 
-type GetMessageOpts struct {
-	XChannelToken optional.String
-}
-
-func (a *DaDaPushMessageApiService) GetMessage(ctx context.Context, messageId int64, localVarOptionals *GetMessageOpts) (ResultOfMessageObject, *http.Response, error) {
+func (a *DaDaPushMessageApiService) GetMessage(ctx context.Context, messageId int64, channelToken string) (ResultOfMessageObject, *http.Response, error) {
 	var (
 		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -257,7 +240,7 @@ func (a *DaDaPushMessageApiService) GetMessage(ctx context.Context, messageId in
 	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	var localVarHttpContentTypes []string
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -273,9 +256,7 @@ func (a *DaDaPushMessageApiService) GetMessage(ctx context.Context, messageId in
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.XChannelToken.IsSet() {
-		localVarHeaderParams["x-channel-token"] = parameterToString(localVarOptionals.XChannelToken.Value(), "")
-	}
+	localVarHeaderParams["x-channel-token"] = parameterToString(channelToken, "")
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -287,7 +268,7 @@ func (a *DaDaPushMessageApiService) GetMessage(ctx context.Context, messageId in
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
+	_ = localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
 	}
@@ -329,15 +310,11 @@ DaDaPushMessageApiService get Message List
  * @param page greater than 1
  * @param pageSize range is 1,50
  * @param optional nil or *GetMessagesOpts - Optional Parameters:
- * @param "XChannelToken" (optional.String) -  see: https://www.dadapush.com/channel/list
+ * @param "ChannelToken" -  see: https://www.dadapush.com/channel/list
 @return ResultOfPageResponseOfMessageObject
 */
 
-type GetMessagesOpts struct {
-	XChannelToken optional.String
-}
-
-func (a *DaDaPushMessageApiService) GetMessages(ctx context.Context, page int32, pageSize int32, localVarOptionals *GetMessagesOpts) (ResultOfPageResponseOfMessageObject, *http.Response, error) {
+func (a *DaDaPushMessageApiService) GetMessages(ctx context.Context, page int32, pageSize int32, channelToken string) (ResultOfPageResponseOfMessageObject, *http.Response, error) {
 	var (
 		localVarHttpMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -357,7 +334,7 @@ func (a *DaDaPushMessageApiService) GetMessages(ctx context.Context, page int32,
 	localVarQueryParams.Add("page", parameterToString(page, ""))
 	localVarQueryParams.Add("pageSize", parameterToString(pageSize, ""))
 	// to determine the Content-Type header
-	localVarHttpContentTypes := []string{}
+	var localVarHttpContentTypes []string
 
 	// set Content-Type header
 	localVarHttpContentType := selectHeaderContentType(localVarHttpContentTypes)
@@ -373,9 +350,8 @@ func (a *DaDaPushMessageApiService) GetMessages(ctx context.Context, page int32,
 	if localVarHttpHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHttpHeaderAccept
 	}
-	if localVarOptionals != nil && localVarOptionals.XChannelToken.IsSet() {
-		localVarHeaderParams["x-channel-token"] = parameterToString(localVarOptionals.XChannelToken.Value(), "")
-	}
+
+	localVarHeaderParams["x-channel-token"] = parameterToString(channelToken, "")
 	r, err := a.client.prepareRequest(ctx, localVarPath, localVarHttpMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -387,7 +363,7 @@ func (a *DaDaPushMessageApiService) GetMessages(ctx context.Context, page int32,
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHttpResponse.Body)
-	localVarHttpResponse.Body.Close()
+	_ = localVarHttpResponse.Body.Close()
 	if err != nil {
 		return localVarReturnValue, localVarHttpResponse, err
 	}
